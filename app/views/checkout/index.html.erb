@@ -1,0 +1,80 @@
+<style>
+form label, em {
+    float: left;
+    text-align: right;
+    margin-right: 0.2em;
+    width: 15em;
+}
+</style>
+
+<h1 align="center">Checkout Using PayPal Express Checkout APIs</h1>
+<p style="margin-left: 200px;">This Demo requires accessing PayPal Sandbox, please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> before the test</p>
+
+<div style="margin: 0 auto; width: 600px; ">
+<% if session[:pp_errors] %>
+<h2>PayPal Errors</h2>
+  <% for k, v in session[:pp_errors].sort %>
+  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
+  <% end %>
+<% end %>
+<br />
+
+<p>My Order Number: 12345</p>
+
+<% form_for :ec, :url => {:controller => 'ec', :action => 'set_ec'} do |f|  %>
+<fieldset>
+  <legend>Express Checkout Parameters</legend><br />
+
+  <label for="paymentaction">Payment Action:</label> 
+  <%= f.text_field :paymentaction, :value => 'Sale', :readonly => true, :size => 10  %><br />
+
+  <label for="amt">Amount:</label> 
+  <%= f.text_field :amt, :value => '1.02', :size => 5, :maxlength => 7  %>
+  <%= f.select(:currencycode, %w(USD GBP EUR JPY CAD AUD).map { |currency| [currency, currency] }, 
+               {:selected => 'USD'}) %><br />
+
+  <label for="returnurl">Return URL:</label> 
+  <%= f.text_field :returnurl, :value => @returnURL, :readonly => true %><br />
+
+  <label for="cancelurl">Cancel URL:</label> 
+  <%= f.text_field :cancelurl, :value => @cancelURL, :readonly => true %><br />
+
+  <label for="localecode">Locale Code:</label> 
+  <%= f.select(:localecode, %w(AU FR IT US).map { |locale| [locale, locale] }, 
+               {:selected => 'US'}) %><br />
+
+  <label for="pagestyle">Page Style:</label> 
+  <%= f.text_field :pagestyle, :value => "PayPal", :readonly => true %><br /><br />
+
+  <div style="margin-left: 100px;">
+    <%= f.radio_button :shipping_option, "NoShipping", :checked => "yes"  %>No Shipping</><br />
+    <%= f.radio_button :shipping_option, "ReqConfirmShipping" %>Require a Confirmed Shipping Address</><br />
+    <%= f.radio_button :shipping_option, "AddressOverride" %>Shipping Address As Below ( * Required)</div>
+
+  <label for="name">Ship To Recipent:</label> 
+  <%= f.text_field :name, :value => "Mr. Bunny" %>*<br />
+  <label for="shiptostreet">Address Line 1:</label> 
+  <%= f.text_field :shiptostreet, :value => "1313 Harbor Blvd" %>*<br />
+  <label for="shiptostreet2">Address Line 2:</label> 
+  <%= f.text_field :shiptostreet2, :value => "Blur..." %><br />
+  <label for="shiptocity">City:</label> 
+  <%= f.text_field :shiptocity, :value => "Anaheim" %>*<br />
+  <label for="shiptostate">State:</label> 
+  <%= f.text_field :shiptostate, :value => "CA" %>*<br />
+  <label for="shiptozip">Zip:</label> 
+  <%= f.text_field :shiptozip, :value => "92802" %>*<br />
+  <label for="shiptocountrycode">Country Code:</label> 
+  <%= f.select(:shiptocountrycode, %w(AU FR IT US).map { |countrycode| [countrycode, countrycode] }, 
+               {:selected => 'US'}) %>*<br /><br />
+  <input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" style="margin-left: 100px;"/>
+</fieldset>
+<%end%>
+<br /><br />
+
+<h2>Request Parameters</h2>
+<% for k, v in params.sort %>
+  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
+<% end %>
+<br />
+
+</div>

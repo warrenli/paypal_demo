@@ -1,0 +1,6 @@
+Please update "Credential" in the file "vendor/plugins/paypal_sdk/config.rb"
+
+PP_credentials =  {"USER"      => "<API Username>", 
+                   "PWD"       => "<API Password>", 
+                   "SIGNATURE" => "<API Signature>" }
+

@@ -1,0 +1,79 @@
+<style>
+em {
+    float: left;
+    text-align: right;
+    margin-right: 0.2em;
+    width: 15em;
+}
+</style>
+
+<h1 align="center">PayPal Express Checkout Result For Merchant</h1>
+
+<div style="margin: 0 auto; width: 600px; ">
+<% if session[:pp_errors] %>
+<h2>PayPal Errors</h2>
+  <% for k, v in session[:pp_errors].sort %>
+  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
+  <% end %>
+<% end %>
+<br />
+
+<fieldset>
+  <legend>PayPal Payment Results</legend><br />
+  <em>Transaction Type:</em><%= session[:ec_final]["TRANSACTIONTYPE"] %><br />
+  <em>Transaction ID:</em><%= session[:ec_final]["TRANSACTIONID"] %> &nbsp;(For Merchant)<br />
+  <em>Payment Type:</em><%= session[:ec_final]["PAYMENTTYPE"] %><br />
+  <em>Payment Status:</em><%= session[:ec_final]["PAYMENTSTATUS"] %><br />
+  <em>Pending Reason:</em><%= session[:ec_final]["PENDINGREASON"] %><br />
+  <em>Reason Code:</em><%= session[:ec_final]["REASONCODE"] %><br /><br />
+
+  <em>Version:</em><%= session[:ec_final]["VERSION"] %><br />
+  <em>Build:</em><%= session[:ec_final]["BUILD"] %><br />
+  <em>Correlation ID:</em><%= session[:ec_final]["CORRELATIONID"] %><br />
+  <em>Token:</em><%= session[:ec_final]["TOKEN"] %><br />
+  <em>Ack:</em><%= session[:ec_final]["ACK"] %><br /><br />
+
+  <em>Currency Code:</em><%= session[:ec_final]["CURRENCYCODE"] %> <br />
+  <em>Amount:</em><%= session[:ec_final]["AMT"] %><br />
+  <em>Fee Amount:</em><%= session[:ec_final]["FEEAMT"] %><br />
+  <em>Tax Amount:</em><%= session[:ec_final]["TAXAMT"] %><br />
+  <em>Timestamp:</em><%= session[:ec_final]["TIMESTAMP"] %><br />
+  <em>Order Time:</em><%= session[:ec_final]["ORDERTIME"] %><br />
+</fieldset>
+<br />
+<br />
+
+<%= link_to "Home", {:controller =>"home", :action => "index"} %> |
+<%= link_to "Re-try Express Checkout", {:controller =>"checkout", :action => "index"} %> 
+<br /><br />
+
+<% if session[:ec_final] %>
+<h2>PayPal Response Data</h2>
+  <% for k, v in session[:ec_final].sort %>
+  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
+  <% end %>
+<% end %>
+<br />
+
+<h2>Request Parameters</h2>
+<% for k, v in params.sort %>
+  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
+<% end %>
+<br />
+
+
+<h3>Below is a sample response in case of failure</h3>
+<pre>
+        ACK:                Failure
+        BUILD:              767689
+        CORRELATIONID:      d5d3dc5c26963
+        L_ERRORCODE0:       10408
+        L_LONGMESSAGE0:     Express Checkout token is missing.
+        L_SEVERITYCODE0:    Error
+        L_SHORTMESSAGE0:    Express Checkout token is missing.
+        TIMESTAMP:          2008-12-15T09:56:10Z
+        VERSION:            55.0
+</pre>
+
+</div>
+
