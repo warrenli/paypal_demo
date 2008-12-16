@@ -9,13 +9,11 @@ form label, em {
 
 <h1 align="center">PayPal Integration Demo</h1>
 <br /><br />
+<center><p>This Demo requires accessing PayPal Sandbox, <br />
+please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> before the test</p></center>
 
 <div style="margin: 0 auto; width: 600px; ", align="center">
-
-<p>This Demo requires accessing PayPal Sandbox, <br />
-please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> before the test</p>
 <br /><br />
-
 <ul>
   <li>
   <%= link_to "Click Me To Start Express Checkout Test", { :controller => "checkout", :action => "index"} %>

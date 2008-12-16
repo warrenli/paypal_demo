@@ -1,5 +1,5 @@
 <style>
-em {
+fieldset label, em {
     float: left;
     text-align: right;
     margin-right: 0.2em;
@@ -10,35 +10,35 @@ em {
 <h1 align="center">PayPal Express Checkout Result For Merchant</h1>
 
 <div style="margin: 0 auto; width: 600px; ">
-<% if session[:pp_errors] %>
+<% if session[:pp_errors] -%>
 <h2>PayPal Errors</h2>
-  <% for k, v in session[:pp_errors].sort %>
-  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
-  <% end %>
-<% end %>
+  <% for k, v in session[:pp_errors].sort -%>
+  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+  <% end -%>
+<% end -%>
 <br />
 
 <fieldset>
   <legend>PayPal Payment Results</legend><br />
-  <em>Transaction Type:</em><%= session[:ec_final]["TRANSACTIONTYPE"] %><br />
-  <em>Transaction ID:</em><%= session[:ec_final]["TRANSACTIONID"] %> &nbsp;(For Merchant)<br />
-  <em>Payment Type:</em><%= session[:ec_final]["PAYMENTTYPE"] %><br />
-  <em>Payment Status:</em><%= session[:ec_final]["PAYMENTSTATUS"] %><br />
-  <em>Pending Reason:</em><%= session[:ec_final]["PENDINGREASON"] %><br />
-  <em>Reason Code:</em><%= session[:ec_final]["REASONCODE"] %><br /><br />
+  <label>Transaction Type:</label><%= session[:ec_final]["TRANSACTIONTYPE"] %><br />
+  <label>Transaction ID:</label><%= session[:ec_final]["TRANSACTIONID"] %> &nbsp;(For Merchant)<br />
+  <label>Payment Type:</label><%= session[:ec_final]["PAYMENTTYPE"] %><br />
+  <label>Payment Status:</label><%= session[:ec_final]["PAYMENTSTATUS"] %><br />
+  <label>Pending Reason:</label><%= session[:ec_final]["PENDINGREASON"] %><br />
+  <label>Reason Code:</label><%= session[:ec_final]["REASONCODE"] %><br /><br />
 
-  <em>Version:</em><%= session[:ec_final]["VERSION"] %><br />
-  <em>Build:</em><%= session[:ec_final]["BUILD"] %><br />
-  <em>Correlation ID:</em><%= session[:ec_final]["CORRELATIONID"] %><br />
-  <em>Token:</em><%= session[:ec_final]["TOKEN"] %><br />
-  <em>Ack:</em><%= session[:ec_final]["ACK"] %><br /><br />
+  <label>Version:</label><%= session[:ec_final]["VERSION"] %><br />
+  <label>Build:</label><%= session[:ec_final]["BUILD"] %><br />
+  <label>Correlation ID:</label><%= session[:ec_final]["CORRELATIONID"] %><br />
+  <label>Token:</label><%= session[:ec_final]["TOKEN"] %><br />
+  <label>Ack:</label><%= session[:ec_final]["ACK"] %><br /><br />
 
-  <em>Currency Code:</em><%= session[:ec_final]["CURRENCYCODE"] %> <br />
-  <em>Amount:</em><%= session[:ec_final]["AMT"] %><br />
-  <em>Fee Amount:</em><%= session[:ec_final]["FEEAMT"] %><br />
-  <em>Tax Amount:</em><%= session[:ec_final]["TAXAMT"] %><br />
-  <em>Timestamp:</em><%= session[:ec_final]["TIMESTAMP"] %><br />
-  <em>Order Time:</em><%= session[:ec_final]["ORDERTIME"] %><br />
+  <label>Currency Code:</label><%= session[:ec_final]["CURRENCYCODE"] %><br />
+  <label>Amount:</label><%= session[:ec_final]["AMT"] %><br />
+  <label>Fee Amount:</label><%= session[:ec_final]["FEEAMT"] %><br />
+  <label>Tax Amount:</label><%= session[:ec_final]["TAXAMT"] %><br />
+  <label>Timestamp:</label><%= session[:ec_final]["TIMESTAMP"] %><br />
+  <label>Order Time:</label><%= session[:ec_final]["ORDERTIME"] %><br />
 </fieldset>
 <br />
 <br />
@@ -47,18 +47,18 @@ em {
 <%= link_to "Re-try Express Checkout", {:controller =>"checkout", :action => "index"} %> 
 <br /><br />
 
-<% if session[:ec_final] %>
+<% if session[:ec_final] -%>
 <h2>PayPal Response Data</h2>
-  <% for k, v in session[:ec_final].sort %>
-  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
-  <% end %>
-<% end %>
+  <% for k, v in session[:ec_final].sort -%>
+  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+  <% end -%>
+<% end -%>
 <br />
 
 <h2>Request Parameters</h2>
-<% for k, v in params.sort %>
-  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
-<% end %>
+<% for k, v in params.sort -%>
+  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+<% end -%>
 <br />
 
 
@@ -76,4 +76,3 @@ em {
 </pre>
 
 </div>
-

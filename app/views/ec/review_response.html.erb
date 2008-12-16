@@ -1,5 +1,5 @@
 <style>
-label, em {
+fieldset label, em {
     float: left;
     text-align: right;
     margin-right: 0.2em;
@@ -11,7 +11,7 @@ label, em {
 
 <div style="margin: 0 auto; width: 600px; ">
 
-<% form_for :ec, :url => {:controller => 'ec', :action => 'do_ec_payment'} do |f|  %>
+<% form_for :ec, :url => {:controller => 'ec', :action => 'do_ec_payment'} do |f| -%>
 <fieldset>
   <legend>Express Checkout Parameters</legend><br />
 
@@ -67,21 +67,21 @@ label, em {
 </fieldset>
 <br />
 
-<%end%>
+<% end -%>
 <br />
 
-<% if session[:ec_response] %>
+<% if session[:ec_response] -%>
 <h2>PayPal Response Data</h2>
-  <% for k, v in session[:ec_response].sort %>
-  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
-  <% end %>
-<% end %>
+  <% for k, v in session[:ec_response].sort -%>
+  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+  <% end -%>
+<% end -%>
 <br />
 
 <h2>Request Parameters</h2>
-<% for k,v in params.sort %>
-  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
-<% end %>
+<% for k,v in params.sort -%>
+  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+<% end -%>
 <br />
 
 </div>

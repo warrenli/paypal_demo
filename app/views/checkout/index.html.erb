@@ -1,5 +1,5 @@
 <style>
-form label, em {
+fieldset label, em {
     float: left;
     text-align: right;
     margin-right: 0.2em;
@@ -8,20 +8,20 @@ form label, em {
 </style>
 
 <h1 align="center">Checkout Using PayPal Express Checkout APIs</h1>
-<p style="margin-left: 200px;">This Demo requires accessing PayPal Sandbox, please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> before the test</p>
+<center><p>This Demo requires accessing PayPal Sandbox, please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> before the test</p></center>
 
 <div style="margin: 0 auto; width: 600px; ">
-<% if session[:pp_errors] %>
+<% if session[:pp_errors] -%>
 <h2>PayPal Errors</h2>
-  <% for k, v in session[:pp_errors].sort %>
-  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
-  <% end %>
-<% end %>
+  <% for k, v in session[:pp_errors].sort -%>
+  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+  <% end -%>
+<% end -%>
 <br />
 
 <p>My Order Number: 12345</p>
 
-<% form_for :ec, :url => {:controller => 'ec', :action => 'set_ec'} do |f|  %>
+<% form_for :ec, :url => {:controller => 'ec', :action => 'set_ec'} do |f| -%>
 <fieldset>
   <legend>Express Checkout Parameters</legend><br />
 
@@ -68,13 +68,13 @@ form label, em {
                {:selected => 'US'}) %>*<br /><br />
   <input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" style="margin-left: 100px;"/>
 </fieldset>
-<%end%>
+<% end -%>
 <br /><br />
 
 <h2>Request Parameters</h2>
-<% for k, v in params.sort %>
-  <em><%= "#{k} :" %></em><%= "#{v}" %><br />
-<% end %>
+<% for k, v in params.sort -%>
+  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+<% end -%>
 <br />
 
 </div>
