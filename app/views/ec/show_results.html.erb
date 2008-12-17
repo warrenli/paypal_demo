@@ -1,5 +1,5 @@
 <style>
-fieldset label, em {
+label {
     float: left;
     text-align: right;
     margin-right: 0.2em;
@@ -13,7 +13,7 @@ fieldset label, em {
 <% if session[:pp_errors] -%>
 <h2>PayPal Errors</h2>
   <% for k, v in session[:pp_errors].sort -%>
-  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
   <% end -%>
 <% end -%>
 <br />
@@ -50,14 +50,14 @@ fieldset label, em {
 <% if session[:ec_final] -%>
 <h2>PayPal Response Data</h2>
   <% for k, v in session[:ec_final].sort -%>
-  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
   <% end -%>
 <% end -%>
 <br />
 
 <h2>Request Parameters</h2>
 <% for k, v in params.sort -%>
-  <em><%= "#{k} : " -%></em><%= "#{v}" -%><br />
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
 <% end -%>
 <br />
 
