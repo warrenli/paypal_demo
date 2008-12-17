@@ -26,7 +26,16 @@ class EcController < ApplicationController
       when "ReqConfirmShipping" then
         options.merge!({ :reqconfirmshipping => "1" })
       when "AddressOverride" then
-        options.merge!({ :addroverride => "1" })
+        ship_options = {
+            :addressoverride    => "1",
+            :shiptostreet       => "#{params[:ec][:shiptostreet]}",
+            :shiptostreet2      => "#{params[:ec][:shiptostreet2]}",
+            :shiptocity         => "#{params[:ec][:shiptocity]}",
+            :shiptostate        => "#{params[:ec][:shiptostate]}",
+            :shiptozip          => "#{params[:ec][:shiptozip]}",
+            :shiptocountrycode  => "#{params[:ec][:shiptocountrycode]}"
+        }
+        options.merge!( ship_options )
       end
     else
       puts "*** shipping_option is nil"
