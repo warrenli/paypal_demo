@@ -1,22 +1,16 @@
-<style>
-form label, em {
-    float: left;
-    text-align: right;
-    margin-right: 0.2em;
-    width: 15em;
-}
-</style>
-
 <h1 align="center">PayPal Integration Demo</h1>
 <br /><br />
 <center><p>This Demo requires accessing PayPal Sandbox, <br />
 please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> before the test</p></center>
 
-<div style="margin: 0 auto; width: 600px; ", align="center">
+<div style="margin: 0 auto; width: 400px; ">
 <br /><br />
 <ul>
   <li>
-  <%= link_to "Click Me To Start Express Checkout Test", { :controller => "checkout", :action => "index"} %>
+  <%= link_to "Start 'Express Checkout' Test", { :controller => "checkout", :action => "index"} %>
+  </li><br /><br />
+  <li>
+  <%= link_to "Start 'Website Payments Standard' Test - Unprotected and non-encrypted button", { :controller => "wps", :action => "index"} %>
   </li>
 </ul>
 </div>

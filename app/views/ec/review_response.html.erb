@@ -7,31 +7,11 @@ label {
 }
 </style>
 
-<h1 align="center">Need Confirm Order</h1>
+<h1 align="center">Buyer Confirm Payment</h1>
 
 <div style="margin: 0 auto; width: 600px; ">
 
 <% form_for :ec, :url => {:controller => 'ec', :action => 'do_ec_payment'} do |f| -%>
-<fieldset>
-  <legend>Express Checkout Parameters</legend><br />
-
-  <label for="paymentaction">Payment Action:</label> 
-  <%= f.text_field :paymentaction, :value => 'Sale', :readonly => true, :size => 10  %><br />
-
-  <label for="amt">Amount:</label> 
-  <%= f.text_field :amt, :value => @amt, :size => 5, :maxlength => 7, :readonly => true  %>
-  <%= f.text_field :currencycode, :value => @currencycode, :size => 3, :readonly => true %><br />
-
-  <label for="token">Token:</label> 
-  <%= f.text_field :token, :value => @token, :readonly => true %><br />
-
-  <label for="token">PayerID:</label> 
-  <%= f.text_field :payerid, :value => @payerid, :readonly => true %><br /><br />
-
-  <%= submit_tag "Confirm"%>
-</fieldset>
-<br />
-
 <fieldset>
 <legend>Payer Information From PayPal</legend><br />
   <label>Firstname:</label>         <%= session[:ec_response]["FIRSTNAME"] %><br />
@@ -43,6 +23,8 @@ label {
 
 <fieldset>
 <legend>Amounts Information From PayPal</legend><br />
+  <label>Invoice Number:</label>           <%= session[:ec_response]["INVNUM"] %><br />
+  <label>Description:</label>              <%= session[:ec_response]["DESC"] %><br />
   <label>Currency Code</label>             <%= session[:ec_response]["CURRENCYCODE"] %><br />
   <label>Amount</label>                    <%= session[:ec_response]["AMT"] %><br />
   <label>Handling Amount:</label>          <%= session[:ec_response]["HANDLINGAMT"] %><br />
@@ -67,6 +49,53 @@ label {
 </fieldset>
 <br />
 
+<fieldset>
+  <legend>DoExpressCheckoutPayment Parameters</legend><br />
+
+  <label for="token">Token:</label>
+  <%= f.text_field :token, :value => session[:ec_response]["TOKEN"], :readonly => true %><br />
+
+  <label for="token">PayerID:</label>
+  <%= f.text_field :payerid, :value => session[:ec_response]["PAYERID"], :readonly => true %><br />
+
+  <label for="paymentaction">Payment Action:</label>
+  <%= f.text_field :paymentaction, :value => 'Sale', :readonly => true, :size => 10  %><br />
+
+  <label for="amt">Currency Code:</label>
+  <%= f.text_field :currencycode, :value => session[:ec_response]["CURRENCYCODE"], :readonly => true %><br />
+
+  <label for="amt">Amount:</label>
+  <%= f.text_field :amt, :value => session[:ec_response]["AMT"], :readonly => true  %><br /><br />
+
+  <label>Invoice Number:</label>
+  <%= f.text_field :invnum, :value => session[:ec_response]["INVNUM"], :readonly => true %> *<br />
+
+  <label>Description:</label>
+  <%= f.text_field :desc, :value => session[:ec_response]["DESC"], :readonly => true %> *<br />
+
+  <label>Handling Amount:</label>
+  <%= f.text_field :handlingamt, :value => session[:ec_response]["HANDLINGAMT"], :readonly => true %> *<br />
+
+  <label>Insurance Amount:</label>
+  <%= f.text_field :insuranceamt, :value => session[:ec_response]["INSURANCEAMT"], :readonly => true %> *<br />
+
+  <label>Shipping Discount Amount:</label>
+  <%= f.text_field :shipdiscamt, :value => session[:ec_response]["SHIPDISCAMT"], :readonly => true %> *<br />
+
+  <label>Shipping Amount:</label>
+  <%= f.text_field :shippingamt, :value => session[:ec_response]["SHIPPINGAMT"], :readonly => true %> *<br />
+
+  <label>Tax Amount:</label>
+  <%= f.text_field :taxamt, :value => session[:ec_response]["TAXAMT"], :readonly => true %> *<br />
+
+  <label>Item Amount:</label>
+  <%= f.text_field :itemamt, :value => session[:ec_response]["ITEMAMT"], :readonly => true %> *<br />
+  <br />
+
+  <%= submit_tag "Confirm Payment"%> <br />
+  ( * Adding these fields do not affect payment details in sandbox )
+</fieldset>
+<br />
 <% end -%>
 <br />
 

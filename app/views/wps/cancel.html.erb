@@ -1,0 +1,41 @@
+<style>
+label {
+    float: left;
+    text-align: right;
+    margin-right: 0.2em;
+    width: 15em;
+}
+</style>
+
+<h1 align="center">Website Payments Standard - Cancel</h1>
+
+<div style="margin: 0 auto; width: 600px; ">
+
+<% if session[:pp_errors] -%>
+<h2>PayPal Errors</h2>
+  <% for k, v in session[:pp_errors].sort -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+  <% end -%>
+<% end -%>
+<br />
+
+<%= link_to "Home", {:controller =>"home", :action => "index"} %> |
+<%= link_to "Re-try Website Payments Standard", {:controller =>"wps", :action => "index"} %> 
+<br /><br />
+
+<% if session -%>
+<h2>Session Data</h2>
+  <% for k, v in session -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+  <% end -%>
+<% end -%>
+<br />
+
+<h2>Request Parameters</h2>
+<% for k, v in params.sort -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+<% end -%>
+<br />
+
+
+</div>

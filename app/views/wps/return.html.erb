@@ -1,0 +1,123 @@
+<style>
+label {
+    float: left;
+    text-align: right;
+    margin-right: 0.2em;
+    width: 15em;
+}
+</style>
+
+<h1 align="center">PayPal Payment Result <br />Using Website Payments Standard <br />3rd Party Shopping Cart</h1>
+
+<div style="margin: 0 auto; width: 600px;" >
+
+<fieldset>
+<legend>Payer Information</legend><br />
+<label>first_name :</label><%= params["first_name"] %><br />
+<label>last_name :</label><%= params["last_name"] %><br />
+<label>payer_email :</label><%= params["payer_email"] %><br />
+<label>pay_id :</label><%= params["payer_id"] %><br />
+<label>pay_status :</label><%= params["payer_status"] %><br />
+</fieldset>
+<br />
+
+<fieldset>
+<legend>Payment Information</legend><br />
+<label>payment_date :</label><%= params["payment_date"] %><br />
+<label>payment_fee :</label><%= params["payment_fee"] %><br />
+<label>payment_gross :</label><%= params["payment_gross"] %><br />
+<label>payment_status :</label><%= params["payment_status"] %><br />
+<label>payment_type :</label><%= params["payment_type"] %><br />
+<label>pending_reason :</label><%= params["pending_reason"] %><br />
+</fieldset>
+<br />
+
+<fieldset>
+<legend>Items Information</legend><br />
+<center>
+<table cellpadding="2" cellspacing="2" border="1">
+<tr>
+  <td>Item #</td>
+  <td>Name</td>
+  <td>Handling</td>
+  <td>Shipping</td>
+  <td>Tax</td>
+  <td>Qty</td>
+  <td></td>
+  <td>Gross</td>
+</tr>
+<% for i in 1..params["num_cart_items"].to_i %>
+<tr>
+  <td><%= params["item_number#{i}"] %></td>
+  <td><%= params["item_name#{i}"] %></td>
+  <td><%= params["mc_handling#{i}"] %></td>
+  <td><%= params["mc_shipping#{i}"] %></td>
+  <td><%= params["mc_tax#{i}"] %> | <%= params["tax#{i}"] %></td>
+  <td><%= params["quantity#{i}"] %></td>
+  <td></td>
+  <td><%= params["mc_gross_#{i}"] %></td>
+</tr>
+<% end %>
+<tr>
+  <td></td>
+  <td></td>
+  <td><%= params["mc_handling"] %></td>
+  <td><%= params["mc_shipping"] %></td>
+  <td><%= params["tax"] %></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</table>
+</center>
+<label>num_cart_items :</label><%= params["num_cart_items"] %><br />
+<label>mc_currency :</label><%= params["mc_currency"] %><br />
+<label>mc_gross :</label><%= params["mc_gross"] %><br />
+<label>mc_fee :</label><%= params["mc_fee"] %><br /><br />
+</fieldset>
+<br />
+
+<fieldset>
+<legend>Address Information</legend><br />
+<label>address_name :</label><%= params["address_name"] %><br />
+<label>address_street :</label><%= params["address_street"] %><br />
+<label>address_state :</label><%= params["address_state"] %><br />
+<label>address_city :</label><%= params["address_city"] %><br />
+<label>address_zip :</label><%= params["address_zip"] %><br />
+<label>address_country_code :</label><%= params["address_country_code"] %><br />
+<label>address_country :</label><%= params["address_country"] %><br />
+<label>address_status :</label><%= params["address_status"] %><br />
+</fieldset>
+<br />
+
+<fieldset>
+<legend>Other Information</legend><br />
+<label>business :</label><%= params["business"] %><br />
+<label>charset :</label><%= params["charset"] %><br />
+<label>custom :</label><%= params["custom"] %><br />
+<label>invoice :</label><%= params["invoice"] %><br />
+<label>merchant_return_link :</label><%= params["merchant_return_link"] %><br />
+<label>notify_version :</label><%= params["notify_version"] %><br />
+<label>protection_eligibility :</label><%= params["protection_eligibility"] %><br />
+<label>receiver_email :</label><%= params["receiver_email"] %><br />
+<label>receiver_id :</label><%= params["receiver_id"] %><br />
+<label>residence_country :</label><%= params["residence_country"] %><br />
+<label>test_ipn :</label><%= params["test_ipn"] %><br />
+<label>transaction_subject :</label><%= params["transaction_subject"] %><br />
+<label>txn_id :</label><%= params["txn_id"] %><br />
+<label>txn_type :</label><%= params["txn_type"] %><br />
+<label>verify_sign :</label><%= params["verify_sign"] %><br />
+</fieldset>
+<br />
+
+<%= link_to "Home", {:controller =>"home", :action => "index"} %> |
+<%= link_to "Re-try Website Payments Standard", {:controller =>"wps", :action => "index"} %> 
+<br /><br />
+
+<h2>Request Parameters</h2>
+<% for k, v in params.sort -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+<% end -%>
+<br />
+
+</div>

@@ -6,12 +6,32 @@ class EcController < ApplicationController
 
     options = {
                 :method           => 'SetExpressCheckout',
-                :amt              => params[:ec][:amt],
-                :currencycode     => params[:ec][:currencycode],
                 :paymentaction    => params[:ec][:paymentaction],
                 :localecode       => params[:ec][:localecode],
                 :cancelurl        => params[:ec][:cancelurl],
-                :returnurl        => params[:ec][:returnurl]
+                :returnurl        => params[:ec][:returnurl],
+                :desc             => params[:ec][:desc],
+                :invnum           => params[:ec][:invnum],
+                :currencycode     => params[:ec][:currencycode],
+                :amt              => params[:ec][:amt],
+                :handlingamt      => params[:ec][:handlingamt],
+                :insuranceamt     => params[:ec][:insuranceamt],
+                :shippingamt      => params[:ec][:shippingamt],
+                :shipdiscamt      => params[:ec][:shipdiscamt],
+                :taxamt           => params[:ec][:taxamt],
+                :itemamt          => params[:ec][:itemamt],
+                :l_number0        => params[:ec][:l_number0],
+                :l_name0          => params[:ec][:l_name0],
+                :l_desc0          => params[:ec][:l_desc0],
+                :l_taxamt0        => params[:ec][:l_taxamt0],
+                :l_amt0           => params[:ec][:l_amt0],
+                :l_qty0           => params[:ec][:l_qty0],
+                :l_number1        => params[:ec][:l_number1],
+                :l_name1          => params[:ec][:l_name1],
+                :l_desc1          => params[:ec][:l_desc1],
+                :l_taxamt1        => params[:ec][:l_taxamt1],
+                :l_amt1           => params[:ec][:l_amt1],
+                :l_qty1           => params[:ec][:l_qty1]
               }
 
     if params[:ec][:pagestyle]
@@ -26,6 +46,7 @@ class EcController < ApplicationController
       when "ReqConfirmShipping" then
         ship_options = {
             :reqconfirmshipping => "1",
+            :name               => "#{params[:ec][:name]}",
             :shiptostreet       => "#{params[:ec][:shiptostreet]}",
             :shiptostreet2      => "#{params[:ec][:shiptostreet2]}",
             :shiptocity         => "#{params[:ec][:shiptocity]}",
@@ -37,6 +58,7 @@ class EcController < ApplicationController
       when "AddressOverride" then
         ship_options = {
             :addressoverride    => "1",
+            :name               => "#{params[:ec][:name]}",
             :shiptostreet       => "#{params[:ec][:shiptostreet]}",
             :shiptostreet2      => "#{params[:ec][:shiptostreet2]}",
             :shiptocity         => "#{params[:ec][:shiptocity]}",
@@ -63,7 +85,9 @@ class EcController < ApplicationController
       redirect_to(@ECRedirectURL + @token)
     else
       session[:pp_errors] = @transaction.response
-      flash[:notice] = "SetExpressCheckout Failed:" + @transaction.response.inspect
+      flash[:notice] = "SetExpressCheckout Failed: " +
+           session[:pp_errors]["L_SHORTMESSAGE0"].to_s + " - " +
+           session[:pp_errors]["L_LONGMESSAGE0"].to_s
       redirect_to :controller => 'checkout', :action => 'index'
     end
 
@@ -96,7 +120,9 @@ class EcController < ApplicationController
       redirect_to :action => 'review_response'
     else
       session[:pp_errors] = @transaction.response
-      flash[:notice] = "GetExpressCheckoutDetails Failed:" + @transaction.response.inspect
+      flash[:notice] = "GetExpressCheckoutDetails Failed: " +
+           session[:pp_errors]["L_SHORTMESSAGE0"].to_s + " - " +
+           session[:pp_errors]["L_LONGMESSAGE0"].to_s
       redirect_to :controller => 'checkout', :action => 'index'
     end
 
@@ -106,10 +132,10 @@ class EcController < ApplicationController
   end
 
   def review_response
-    @amt           = session[:ec_response]["AMT"]
-    @currencycode  = session[:ec_response]["CURRENCYCODE"]
-    @token         = session[:ec_response]["TOKEN"]
-    @payerid       = session[:ec_response]["PAYERID"]
+#    @token         = session[:ec_response]["TOKEN"]
+#    @payerid       = session[:ec_response]["PAYERID"]
+#    @currencycode  = session[:ec_response]["CURRENCYCODE"]
+#    @amt           = session[:ec_response]["AMT"]
 
 #    @lastname      = session[:ec_response]["LASTNAME"]
 #    @firstname     = session[:ec_response]["FIRSTNAME"]
@@ -170,45 +196,6 @@ class EcController < ApplicationController
   end
 
   def show_results
-  
   end
 
-  private
-  
-  def clear_session_data
-    session[:ec_response] = nil
-    session[:ec_final] = nil
-  end
-
-  def dump_params(method)
-    puts "\n*** Invoking " + method
-    puts "   Parameters"
-    for k,v in params
-       puts "#{k}: #{v}" unless ( "#{k}" == "ec")
-    end
-
-    puts "\n  ec Parameters" if params[:ec]
-    for k1,v1 in params[:ec]
-      puts "#{k1}: #{v1}"
-    end if params[:ec]
-
-    puts "*****************************\n\n"
-  end
-  
-  def dump_response(response, method)
-    puts "\n*** Invoking " + method
-    puts "   Response"
-    for k,v in response
-       puts "#{k}: #{v}"
-    end
-    puts "*****************************\n\n"
-  end
-
-  def dump_options(options)
-    puts "\n*** Options "
-    for k,v in options
-       puts "#{k}: #{v}"
-    end
-    puts "*****************************\n\n"
-  end
 end

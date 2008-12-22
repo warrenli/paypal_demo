@@ -1,0 +1,154 @@
+<style>
+label {
+    float: left;
+    text-align: right;
+    margin-right: 0.2em;
+    width: 15em;
+}
+</style>
+
+<h1 align="center">Checkout Using Website Payment Standard<br />3rd Party Shopping Cart</h1>
+<center><p>This Demo requires accessing PayPal Sandbox, please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> before the test</p></center>
+
+<div style="margin: 0 auto; width: 600px; ">
+<% if session[:pp_errors] -%>
+<h2>PayPal Errors</h2>
+  <% for k, v in session[:pp_errors].sort -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+  <% end -%>
+<% end -%>
+<br />
+
+<form action="<%= PAYPAL_WPS_URL %>" method="post">
+<fieldset>
+  <legend>Checkout Parameters</legend><br />
+<!--
+  <label for="paymentaction">Payment Action:</label> 
+  <input type="text" id="paymentaction" name="paymentaction" readonly="readonly" value="Sale" /><br />
+-->
+  <label for="cmd">cmd</label>
+  <input type="text" id="cmd" name="cmd" value="_cart" readonly=true /><br />
+  <label for="upload">upload</label>
+  <input type="text" id="upload" name="upload" value="1" readonly=true /><br />
+  <label>charset</label>
+  <input type="text" id="charset" name="charset" value="UTF-8" readonly=true ><br />
+  <br />
+
+  <label for="business">* business</label>
+  <input type="text" id="business" name="business" value="" />
+  ( Email of Seller's PayPal Account )<br /><br />
+  <label for="invoice">invoice</label>
+  <input type="text" id="invoice" name="invoice" value="For Order #00001" /><br />
+  <label for="custom">custom</label>
+  <input type="text" id="custom" name="custom" value="This is a test order" />
+
+  <br /><br />
+
+  <center>
+  <table cellpadding="2" cellspacing="2" border="1">
+  <tr>
+    <td>Item #</td>
+    <td>Name</td>
+    <td>Price</td>
+    <td>Handling</td>
+    <td>Shipping</td>
+    <td>Shipping2</td>
+    <td>Tax</td>
+    <td>Qty</td>
+  </tr>
+
+  <tr>
+    <td><input type="text" id="item_number_1" name="item_number_1" value="A001" size="5" /></td>
+    <td><input type="text" id="item_name_1" name="item_name_1" value="Burger" /></td>
+    <td><input type="text" id="amount_1" name="amount_1" value="0.3" size="5" /></td>
+    <td><input type="text" id="handling_1" name="handling_1" value="0.01" size="5" /></td>
+    <td><input type="text" id="shipping_1" name="shipping_1" value="0.25" size="5" /></td>
+    <td><input type="text" id="shipping2_1" name="shipping2_1" value="0.25" size="5" /></td>
+    <td><input type="text" id="tax_1" name="tax_1" value="0.3" size="5" /></td>
+    <td><input type="text" id="quantity_1" name="quantity_1" value="2" size="5" /></td>
+  </tr>
+  <tr>
+    <td><input type="text" id="item_number_2" name="item_number_2" value="B002" size="5" /></td>
+    <td><input type="text" id="item_name_2" name="item_name_2" value="Sundae" /></td>
+    <td><input type="text" id="amount_2" name="amount_2" value="0.2" size="5" /></td>
+    <td><input type="text" id="handling_2" name="handling_2" value="0.01" size="5" /></td>
+    <td><input type="text" id="shipping_2" name="shipping_2" value="0.25" size="5" /></td>
+    <td><input type="text" id="shipping2_2" name="shipping2_2" value="" size="5" /></td>
+    <td><input type="text" id="tax_2" name="tax_2" value="0.4" size="5" /></td>
+    <td><input type="text" id="quantity_2" name="quantity_2" value="1" size="5" /></td>
+  </tr>
+  </table>
+  </center>
+  <br />
+
+  <label>currency_code</label>
+  <select id="currency_code" name="currency_code">
+    <option value="AUD">AUD</option>
+    <option value="CAD">CAD</option>
+    <option value="EUR">EUR</option>
+    <option value="JPY">JPY</option>
+    <option value="GBP">GBP</option>
+    <option value="USD" selected="selected">USD</option>
+  </select>
+  <br /><br />
+
+  <!-- For displaying PayPal Checkout Page -->
+  <label for="page_style">Page Style:</label> 
+  <input type="text" id="page_style" name="page_style" value="PayPal" /><br />
+  <label for="no_shipping">&nbsp;</label>
+  <input type="radio"id="no_shipping" name="no_shipping" value="1" />No Shipping</>
+  <br /><br />
+
+  <!-- Enable override of payer’s stored PayPal address. -->
+  <label for="address_override">&nbsp;</label>
+  <input type="radio"id="address_override" name="address_override" value="1" />Address Override</><br />
+
+<!-- Set prepopulation variables to override stored address. -->
+  <label>first_name</label>
+  <input type="text" id="first_name" name="first_name" value="John"><br />
+  <label>last_name</label>
+  <input type="text" id="last_name" name="last_name" value="Doe"><br />
+  <label>address1</label>
+  <input type="text" id="address1" name="address1" value="345 Lark Ave"><br />
+  <label>address2</label>
+  <input type="text" id="address2" name="address2" value=""><br />
+  <label>city</label>
+  <input type="text" id="city" name="city" value="San Jose"><br />
+  <label>state</label>
+  <input type="text" id="state" name="state" value="CA"><br />
+  <label>zip</label>
+  <input type="text" id="zip" name="zip" value="95121"><br />
+  <label>country</label>
+  <select id="country" name="country">
+    <option value="AU">AU</option>
+    <option value="CA">CA</option>
+    <option value="FR">FR</option>
+    <option value="JP">JP</option>
+    <option value="GB">GB</option>
+    <option value="US" selected="selected">US</option>
+  </select>
+  <br /><br />
+
+  <label>return</label>
+  <input type="text" id="return" name="return" value="<%= @return %>" size="30"/>
+  <label>cancel_return</label>
+  <input type="text" id="cancel_return" name="notify_url" value="<%= @cancel_return %>" size="30" />
+  <label>notify_url</label>
+  <input type="text" id="notify_url" name="notify_url" value="<%= @notify_url %>" size="30" />
+  <br /><br />
+
+  <input type="submit" value="Proceed to PayPal">
+</fieldset>  
+</form>
+<br /><br />
+
+<%= link_to "Home", {:controller =>"home", :action => "index"} %>
+<br /><br />
+
+<h2>Request Parameters</h2>
+<% for k, v in params.sort -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+<% end -%>
+<br />
+
+</div>

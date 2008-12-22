@@ -19,56 +19,114 @@ label {
 <% end -%>
 <br />
 
-<p>My Order Number: 12345</p>
-
 <% form_for :ec, :url => {:controller => 'ec', :action => 'set_ec'} do |f| -%>
 <fieldset>
-  <legend>Express Checkout Parameters</legend><br />
+  <legend>SetExpressCheckout Parameters</legend><br />
 
   <label for="paymentaction">Payment Action:</label> 
   <%= f.text_field :paymentaction, :value => 'Sale', :readonly => true, :size => 10  %><br />
 
-  <label for="amt">Amount:</label> 
-  <%= f.text_field :amt, :value => '1.02', :size => 5, :maxlength => 7  %>
-  <%= f.select(:currencycode, %w(USD GBP EUR JPY CAD AUD).map { |currency| [currency, currency] }, 
+  <label for="invnum">Invoice Number:</label>
+  <%= f.text_field :invnum, :value => "For Order #001", :size => 18 %> ( *Unique )<br />
+
+  <label for="desc">Description:</label>
+  <%= f.text_field :desc, :value => "This is a test order" %><br /><br />
+
+  <center>
+  <table cellpadding="2" cellspacing="2" border="1">
+  <tr>
+    <td>Item #</td>
+    <td>Name</td>
+    <td>Description</td>
+    <td>Tax</td>
+    <td>Price</td>
+    <td>Qty</td>
+  </tr>
+  <tr>
+    <td><input type="text" id="ec_l_number0" name="ec[l_number0]" value="A001" size="5" /></td>
+    <td><input type="text" id="ec_l_name0" name="ec[l_name0]" value="Burger" size="10" /></td>
+    <td><input type="text" id="ec_l_desc0" name="ec[l_desc0]" value="Supreme Cheese Burger" size="20" /></td>
+    <td><input type="text" id="ec_l_taxamt0" name="ec[l_taxamt0]" value="0.30" size="5" /></td>
+    <td><input type="text" id="ec_l_amt0" name="ec[l_amt0]" value="0.30" size="5" /></td>
+    <td><input type="text" id="ec_l_qty0" name="ec[l_qty0]" value="2" size="5" /></td>
+  </tr>
+  <tr>
+    <td><input type="text" id="ec_l_number1" name="ec[l_number1]" value="B002" size="5" /></td>
+    <td><input type="text" id="ec_l_name1" name="ec[l_name1]" value="Sundae" size="10" /></td>
+    <td><input type="text" id="ec_l_desc1" name="ec[l_desc1]" value="Chocolate Sundae" size="20" /></td>
+    <td><input type="text" id="ec_l_taxamt1" name="ec[l_taxamt1]" value="0.40" size="5" /></td>
+    <td><input type="text" id="ec_l_amt1" name="ec[l_amt1]" value="0.20" size="5" /></td>
+    <td><input type="text" id="ec_l_qty1" name="ec[l_qty1]" value="1" size="5" /></td>
+  </tr>
+  </table>
+  </center>
+
+  <label for="currencycode">Currency Code:</label>
+  <%= f.select(:currencycode, %w(AUD CAD EUR JPY GBP USD).map { |currency| [currency, currency] },
                {:selected => 'USD'}) %><br />
 
-  <label for="returnurl">Return URL:</label> 
+  <label for="amt">Amount:</label>
+  <%= f.text_field :amt, :value => '2.40', :size => 10  %> ( Overall Total )<br />
+
+  <label for="handlingamt">Handling Amount:</label>
+  <%= f.text_field :handlingamt, :value => '0.25', :size => 10 %><br />
+
+  <label for="insuranceamt">Insurance Amount:</label>
+  <%= f.text_field :insuranceamt, :value => '0.25', :size => 10 %><br />
+
+  <label for="shippingamt">Shipping Amount:</label>
+  <%= f.text_field :shippingamt, :value => '0.35', :size => 10 %><br />
+
+  <label for="shipdiscamt">Shipping Discount:</label>
+  <%= f.text_field :shipdiscamt, :value => '-0.25', :size => 10 %> ( -ve number )<br />
+
+
+  <label for="taxamt">Tax Amount:</label>
+  <%= f.text_field :taxamt, :value => '1.00', :size => 10  %> ( Subtotal )<br />
+
+  <label for="itemamt">Item Amount:</label>
+  <%= f.text_field :itemamt, :value => '0.80', :size => 10 %> ( Subtotal )<br />
+  <br />
+
+  <label for="returnurl">Return URL:</label>
   <%= f.text_field :returnurl, :value => @returnURL, :readonly => true %><br />
 
-  <label for="cancelurl">Cancel URL:</label> 
+  <label for="cancelurl">Cancel URL:</label>
   <%= f.text_field :cancelurl, :value => @cancelURL, :readonly => true %><br />
 
-  <label for="localecode">Locale Code:</label> 
-  <%= f.select(:localecode, %w(AU FR IT US).map { |locale| [locale, locale] }, 
+  <label for="localecode">Locale Code:</label>
+  <%= f.select(:localecode, %w(AU FR IT GB US).map { |locale| [locale, locale] },
                {:selected => 'US'}) %><br />
 
-  <label for="pagestyle">Page Style:</label> 
-  <%= f.text_field :pagestyle, :value => "PayPal", :readonly => true %><br /><br />
+  <label for="pagestyle">Page Style:</label>
+  <%= f.text_field :pagestyle, :value => "PayPal" %><br /><br />
 
   <div style="margin-left: 100px;">
     <%= f.radio_button :shipping_option, "NoShipping", :checked => "yes"  %>No Shipping</><br />
     <%= f.radio_button :shipping_option, "ReqConfirmShipping" %>Require a Confirmed Shipping Address</><br />
     <%= f.radio_button :shipping_option, "AddressOverride" %>Shipping Address As Below ( * Required)</div>
 
-  <label for="name">Ship To Recipent:</label> 
+  <label for="name">Ship To Recipent:</label>
   <%= f.text_field :name, :value => "Mr. Bunny" %>*<br />
-  <label for="shiptostreet">Address Line 1:</label> 
+  <label for="shiptostreet">Address Line 1:</label>
   <%= f.text_field :shiptostreet, :value => "1313 S Harbor Blvd" %>*<br />
-  <label for="shiptostreet2">Address Line 2:</label> 
+  <label for="shiptostreet2">Address Line 2:</label>
   <%= f.text_field :shiptostreet2, :value => "" %><br />
-  <label for="shiptocity">City:</label> 
+  <label for="shiptocity">City:</label>
   <%= f.text_field :shiptocity, :value => "Anaheim" %>*<br />
-  <label for="shiptostate">State:</label> 
+  <label for="shiptostate">State:</label>
   <%= f.text_field :shiptostate, :value => "CA" %>*<br />
-  <label for="shiptozip">Zip:</label> 
+  <label for="shiptozip">Zip:</label>
   <%= f.text_field :shiptozip, :value => "92803" %>*<br />
-  <label for="shiptocountrycode">Country Code:</label> 
-  <%= f.select(:shiptocountrycode, %w(AU FR IT US).map { |countrycode| [countrycode, countrycode] }, 
+  <label for="shiptocountrycode">Country Code:</label>
+  <%= f.select(:shiptocountrycode, %w(AU CA FR JP GB US).map { |countrycode| [countrycode, countrycode] },
                {:selected => 'US'}) %>*<br /><br />
   <input type="image" name="submit" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" style="margin-left: 100px;"/>
 </fieldset>
 <% end -%>
+<br /><br />
+
+<%= link_to "Home", {:controller =>"home", :action => "index"} %>
 <br /><br />
 
 <h2>Request Parameters</h2>
