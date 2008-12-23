@@ -1,0 +1,12 @@
+<center>
+<div id="buy_now" align="center">
+
+  <form action="<%= PAYPAL_WPS_URL %>" method="post">
+    <input type="hidden" name="cmd" value="_s-xclick">
+    <input type="image" src="<%= BUTTON_IMAGE %>" border="0" name="submit" alt="make paymments with paypal- It's fast and secure" >
+    <input type="hidden" name="encrypted" value="<%= @button %>" >
+  </form>
+  <%= @currency_code %> <%= @amount %>
+
+</div>
+</center>

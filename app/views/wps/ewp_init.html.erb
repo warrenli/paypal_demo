@@ -5,10 +5,23 @@ label {
     margin-right: 0.2em;
     width: 15em;
 }
+div#buy_now {
+    width: 150px;
+    color: #666666;
+    font-family: arial, verdana, helvetica, sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.4em;
+    padding: 2em;
+    margin: 0.5em;
+    margin-bottom: 0em;
+    background: #efe;
+    border: solid 2px #bd7;
+}
 </style>
 
-<h1 align="center">Checkout Using Website Payment Standard<br />3rd Party Shopping Cart</h1>
-<center><p>This Demo requires accessing PayPal Sandbox, please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> before the test</p></center>
+<h1 align="center">Checkout Using Encrypted Website Payments (EWP)</h1>
+<h2 align="center">1. Review order before generating EWP button</h2>
 
 <div style="margin: 0 auto; width: 600px; ">
 <% if session[:pp_errors] -%>
@@ -19,31 +32,23 @@ label {
 <% end -%>
 <br />
 
-<form action="<%= PAYPAL_WPS_URL %>" method="post">
+<% form_tag "/wps/ewp_buy" do -%>
 <fieldset>
-  <legend>Checkout Parameters</legend><br />
-<!--
-  <label for="paymentaction">Payment Action:</label> 
-  <input type="text" id="paymentaction" name="paymentaction" readonly="readonly" value="Sale" /><br />
+  <legend>Order</legend><br />
+<!-- Single Item
+  <label>item_name:</label>
+  <input type="text" id="item_name" name="item_name" value="Widget" /><br />
+  <label>item_number:</label>
+  <input type="text" id="item_number" name="item_number" value="1" /><br />
+  <label>amount:</label>
+  <input type="text" id="amount" name="amount" value="1.09" /><br />
 -->
-  <label for="cmd">cmd</label>
-  <input type="text" id="cmd" name="cmd" value="_cart" readonly=true /><br />
-  <label for="upload">upload</label>
-  <input type="text" id="upload" name="upload" value="1" readonly=true /><br />
-  <label>charset</label>
-  <input type="text" id="charset" name="charset" value="UTF-8" readonly=true ><br />
-  <br />
-
-  <label for="business">* business</label>
-  <input type="text" id="business" name="business" value="" />
-  ( Email of Seller's PayPal Account )<br /><br />
   <label for="invoice">invoice</label>
   <input type="text" id="invoice" name="invoice" value="" /> ( Unique )<br />
   <label for="custom">custom</label>
   <input type="text" id="custom" name="custom" value="This is a test order" />
 
   <br /><br />
-
   <center>
   <table cellpadding="2" cellspacing="2" border="1">
   <tr>
@@ -56,7 +61,6 @@ label {
     <td>Tax</td>
     <td>Qty</td>
   </tr>
-
   <tr>
     <td><input type="text" id="item_number_1" name="item_number_1" value="A001" size="5" /></td>
     <td><input type="text" id="item_name_1" name="item_name_1" value="Burger" /></td>
@@ -129,17 +133,10 @@ label {
   </select>
   <br /><br />
 
-  <label>return</label>
-  <input type="text" id="return" name="return" value="<%= @return %>" size="30"/>
-  <label>cancel_return</label>
-  <input type="text" id="cancel_return" name="notify_url" value="<%= @cancel_return %>" size="30" />
-  <label>notify_url</label>
-  <input type="text" id="notify_url" name="notify_url" value="<%= @notify_url %>" size="30" />
-  <br /><br />
+  <input type="submit" value="Confirm">
 
-  <input type="submit" value="Proceed to PayPal">
 </fieldset>  
-</form>
+<% end -%>
 <br /><br />
 
 <%= link_to "Home", {:controller =>"home", :action => "index"} %>

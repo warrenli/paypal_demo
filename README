@@ -4,3 +4,19 @@ PP_credentials =  {"USER"      => "<API Username>",
                    "PWD"       => "<API Password>", 
                    "SIGNATURE" => "<API Signature>" }
 
+MY_BUSINESS_EMAIL_ADDRESS   = <Email of Seller PayPal Account>
+
+MY_BUSINESS_EWP_CERT_ID     = "<Cert ID>"
+
+
+Save three files to folder "credentials"
+1. Your private key file
+    my-prvkey.pem
+
+2. Your  Public Certificate file
+    my‑pubcert.pem
+
+3. PayPal Public Certificate
+    paypal_cert_pem.txt
+
+

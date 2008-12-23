@@ -1,0 +1,69 @@
+<style>
+label {
+    float: left;
+    text-align: right;
+    margin-right: 0.2em;
+    width: 15em;
+}
+div#buy_now {
+    width: 150px;
+    color: #666666;
+    font-family: arial, verdana, helvetica, sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.4em;
+    text-align: center;
+    padding: 2em;
+    margin: 0.5em;
+    margin-bottom: 0em;
+    background: #efe;
+    border: solid 2px #bd7;
+}
+</style>
+
+<h1 align="center">Checkout Using Encrypted Website Payments (EWP)</h1>
+<h2 align="center">2. Publish the signed, encrypted HTML code for the payment button</h2>
+
+<br /><br />
+
+<div style="margin: 0 auto; width: 600px;">
+  <center>
+  <div id="buy_now">
+    <form action="<%= PAYPAL_WPS_URL %>" method="post" />
+      <input type="hidden" name="cmd" value="_s-xclick" />
+      <input type="image" src="<%= BUTTON_IMAGE %>" border="0" name="submit" alt="Buy Now" />
+      <input type="hidden" name="encrypted" value="<%= @button %>" />
+    </form>
+  </div>
+  <br /><br />
+  <div>
+    Please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> and<br />
+    click 'Buy Now' button to complete the payment on PayPal.<br />
+  </div>
+<!--
+  <br /><br />
+  <div>
+    The following are the parameters being passed:
+  </div>
+  <table cellpadding="2" cellspacing="2" border="1">
+    <tr><td>cmd :</td>            <td><%= @cmd %></td></tr>
+    <tr><td>upload :</td>         <td><%= @upload %></td></tr>
+    <tr><td>charset :</td>        <td><%= @charset %></td></tr>
+    <tr><td>business :</td>       <td><%= @business %></td></tr>
+    <tr><td>cert_id :</td>        <td><%= @cert_id %></td></tr>
+    <tr><td>return :</td>         <td><%= @return %></td></tr>
+    <tr><td>cancel_return :</td>  <td><%= @cancel_return %></td></tr>
+    <tr><td>notify_url :</td>     <td><%= @notify_url %></td></tr>
+
+    <tr><td>item_name</td>    <td><%= @item_name %></td></tr>
+    <tr><td>item_number</td>  <td><%= @item_number %></td></tr>
+    <tr><td>amount</td>       <td><%= @amount %></td></tr>
+    <tr><td>currency_code</td><td><%= @currency_code %></td></tr>
+  </table>
+-->
+  </center>
+  <br><br>
+  <%= link_to "Home", {:controller =>"home", :action => "index"} %>
+</div>
+
+

@@ -11,6 +11,9 @@ please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>t
   </li><br /><br />
   <li>
   <%= link_to "Start 'Website Payments Standard' Test - Unprotected and non-encrypted button", { :controller => "wps", :action => "index"} %>
+  </li><br /><br />
+  <li>
+  <%= link_to "Start 'Encrypted Website Payments' Test", { :controller => "wps", :action => "ewp_init"} %>
   </li>
 </ul>
 </div>

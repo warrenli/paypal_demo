@@ -16,7 +16,8 @@ class ApplicationController < ActionController::Base
   def get_server_path
     @host=request.host.to_s
     @port=request.port.to_s
-    @serverURL="http://#{@host}:#{@port}"
+    @serverURL="http://#{@host}"
+    @serverURL = @serverURL + ":#{@port}"  unless @port == "80"
   end
 
   def clear_session_data
