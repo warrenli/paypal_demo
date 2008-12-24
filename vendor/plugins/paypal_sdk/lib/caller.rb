@@ -72,6 +72,69 @@ module PPCallers
       @response
     end
   end
+
+  class Pdt
+    attr_accessor :params
+    attr_accessor :success
+    @@PayPalLog=PPUtils::Audit.getLogger
+    @@pdt = PP_pdt_endpoints
+
+    def initialize(post)
+      empty!
+      post_back(post)
+    end
+
+    def success?
+      @success
+    end
+
+    def empty!
+      @params  = Hash.new
+    end
+
+    def get_params
+      @params
+    end
+
+    def log_params
+#      info = "PDT Verified: "
+#      @params.each_pair {|key,value| info << "#{key}=#{value}\n"}
+      @@PayPalLog.info "PDT Verified: #{@params.inspect}"
+    end
+
+    def hash2cgiString(h)
+      h.each { |key,value| h[key] = CGI::escape(value.to_s) if (value) }
+      h.map { |a| a.join('=') }.join('&')
+    end
+
+    def post_back(post_data)
+      req_data= "#{hash2cgiString(post_data)}"
+      http = Net::HTTP.new(@@pdt["SERVER"], 443)
+      http.verify_mode    = OpenSSL::SSL::VERIFY_NONE
+      http.use_ssl        = true
+      response = http.request_post(@@pdt["SERVICE"], req_data)
+      rawdata = response.read_body
+
+#      data=CGI::unescape(rawdata)
+      response_array = rawdata.split(/\n/)
+      @success = response_array[0] == "SUCCESS"
+      if @success
+        response_array.slice!(0)
+        puts response_array.length
+        response_array.each do |element|
+          part = /=/.match(element)
+          if part
+            @params["#{part.pre_match}"] = "#{CGI::unescape(part.post_match)}"
+          end
+        end
+      else
+        @@PayPalLog.info "PDT Verification Failed: #{CGI::unescape(rawdata.inspect)}"
+      end
+      log_params
+    end
+
+  end
+
 end
 
 

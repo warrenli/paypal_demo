@@ -3,9 +3,10 @@ class WpsController < ApplicationController
   protect_from_forgery :except => :ewp_return
 
   def index
-    @return = @serverURL + "/wps/return"
+    # @return = @serverURL + "/wps/return"   this is used when PDT is disabled
     @cancel_return = @serverURL + "/wps/cancel"
-    @notify_url = @serverURL + "/wps/notify"
+    @return = @serverURL + "/pdt/update"
+    @notify_url = ""
   end
 
   def ewp_init
@@ -38,9 +39,10 @@ class WpsController < ApplicationController
     @charset  = "UTF-8"
     @business               = MY_BUSINESS_EMAIL_ADDRESS
     @cert_id                = MY_BUSINESS_EWP_CERT_ID
-    @return = @serverURL + "/wps/ewp_return"
+    # @return = @serverURL + "/wps/ewp_return"   this is used when PDT is disabled
     @cancel_return = @serverURL + "/wps/cancel"
-    @notify_url = @serverURL + "/wps/notify"
+    @return = @serverURL + "/pdt/update"
+    @notify_url = ""
     data = {
              :cmd            => @cmd,
              :upload         => @upload,
