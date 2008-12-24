@@ -4,9 +4,11 @@ Please update the file "vendor/plugins/paypal_sdk/config.rb"
                       "PWD"       => "<API Password>", 
                       "SIGNATURE" => "<API Signature>" }
 
-   MY_BUSINESS_EMAIL_ADDRESS   = <Email of Seller PayPal Account>
+   MY_BUSINESS_EMAIL_ADDRESS   = "<Email of Seller PayPal Account>"
 
    MY_BUSINESS_EWP_CERT_ID     = "<Cert ID>"
+
+   MY_BUSINESS_IDENTITY_TOKEN = "<PDT identity token>"
 
 
 Save three files to folder "credentials"
@@ -20,3 +22,16 @@ Save three files to folder "credentials"
        paypal_cert_pem.txt
 
 
+To enable Payment Data Transfer
+   1.  Log in Sandbox as Seller.
+   2.  Click the Profile subtab.
+   3.  Click Website Payment Preferences in the Seller Preferences column.
+   4.  Under Auto Return for Website Payments, click the On radio button.
+   5.  For the Return URL, enter the URL on your site that will receive the 
+       transaction ID posted by PayPal after a customer payment.
+       ( e.g. http://yourdomain/pdt/update )
+   6.  Under Payment Data Transfer, click the On radio button.
+   7.  (Optional) Under PayPal Account Optional, clck the Off radio button.
+   8.  Click Save.
+   9.  Click Website Payment Preferences in the Seller Preferences column.
+   10. Scroll down to the Payment Data Transfer section of the page to view your PDT identity token.
