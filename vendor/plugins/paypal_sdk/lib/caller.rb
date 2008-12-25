@@ -30,12 +30,12 @@ module PPCallers
       h.each { |key,value| h[key] = CGI::escape(value.to_s) if (value) }
       h.map { |a| a.join('=') }.join('&')
     end
-    # This method uses HTTP::Net library to talk to PayPal WebServices. 
+    # This method uses HTTP::Net library to talk to PayPal WebServices.
     # This is the method what merchants should mostly care about.
     # It expects an hash arugment which has the method name and paramter values of a particular PayPal API.
     # It assumes and uses the credentials of the merchant
-    # It assumes and uses the client 
-    # It will also work behind a proxy server. 
+    # It assumes and uses the client
+    # It will also work behind a proxy server.
     # If the calls need be to made via a proxy sever, set USE_PROXY flag to true and specify proxy server and port information.
     def call(requesth)
     # convert hash values to CGI request (NVP) format
@@ -96,12 +96,6 @@ module PPCallers
       @params
     end
 
-    def log_params
-#      info = "PDT Verified: "
-#      @params.each_pair {|key,value| info << "#{key}=#{value}\n"}
-      @@PayPalLog.info "PDT Verified: #{@params.inspect}"
-    end
-
     def hash2cgiString(h)
       h.each { |key,value| h[key] = CGI::escape(value.to_s) if (value) }
       h.map { |a| a.join('=') }.join('&')
@@ -120,17 +114,16 @@ module PPCallers
       @success = response_array[0] == "SUCCESS"
       if @success
         response_array.slice!(0)
-        puts response_array.length
         response_array.each do |element|
           part = /=/.match(element)
           if part
             @params["#{part.pre_match}"] = "#{CGI::unescape(part.post_match)}"
           end
         end
+        @@PayPalLog.info "PDT Verified: #{@params.inspect}"
       else
         @@PayPalLog.info "PDT Verification Failed: #{CGI::unescape(rawdata.inspect)}"
       end
-      log_params
     end
 
   end
