@@ -58,6 +58,9 @@ label {
   <label for="token">PayerID:</label>
   <%= f.text_field :payerid, :value => session[:ec_response]["PAYERID"], :readonly => true %><br />
 
+  <label for="notifyurl">Notify URL</label>
+  <%= f.text_field :notifyurl, :value => @notifyurl, :readonly => true %><br />
+
   <label for="paymentaction">Payment Action:</label>
   <%= f.text_field :paymentaction, :value => 'Sale', :readonly => true, :size => 10  %><br />
 

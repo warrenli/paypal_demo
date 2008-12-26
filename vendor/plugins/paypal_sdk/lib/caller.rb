@@ -120,12 +120,44 @@ module PPCallers
             @params["#{part.pre_match}"] = "#{CGI::unescape(part.post_match)}"
           end
         end
-        @@PayPalLog.info "PDT Verified: #{@params.inspect}"
+        @@PayPalLog.info "PDT_verified: #{@params.inspect}"
       else
-        @@PayPalLog.info "PDT Verification Failed: #{CGI::unescape(rawdata.inspect)}"
+        @@PayPalLog.info "PDT_verification_failed: #{CGI::unescape(rawdata.inspect)}"
       end
     end
 
+  end
+
+  class Ipn
+    attr_accessor :result
+    attr_accessor :params
+    @@PayPalLog=PPUtils::Audit.getLogger
+    @@pdt = PP_pdt_endpoints
+
+    def initialize(post_data)
+      @params  = Hash.new
+      parse(post_data)
+      post_back(post_data)
+    end
+
+    private
+
+    def parse(post_data)
+      for line in post_data.split('&')
+        key, value = *line.scan( %r{^(\w+)\=(.*)$} ).flatten
+        @params[key] = CGI.unescape(value)
+      end
+    end
+
+    def post_back(post_data)
+      @@PayPalLog.info "IPN_post_back: #{post_data}"
+      http = Net::HTTP.new(@@pdt["SERVER"], 443)
+      http.verify_mode    = OpenSSL::SSL::VERIFY_NONE
+      http.use_ssl        = true
+      response = http.request_post("#{@@pdt["SERVICE"]}?cmd=_notify-validate", post_data)
+      @result = response.read_body
+      @@PayPalLog.info "IPN_after_post_back: #{@result}"
+    end
   end
 
 end

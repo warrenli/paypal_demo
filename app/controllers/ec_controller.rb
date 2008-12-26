@@ -1,4 +1,6 @@
 class EcController < ApplicationController
+  before_filter  :get_server_path
+
   def set_ec
     @ECRedirectURL = PAYPAL_EC_URL
     clear_session_data
@@ -132,6 +134,7 @@ class EcController < ApplicationController
   end
 
   def review_response
+    @notifyurl="#{@serverURL}/ipn/update"
 #    @token         = session[:ec_response]["TOKEN"]
 #    @payerid       = session[:ec_response]["PAYERID"]
 #    @currencycode  = session[:ec_response]["CURRENCYCODE"]
@@ -162,16 +165,38 @@ class EcController < ApplicationController
     dump_params("DOExpressCheckoutPayment")
     @token         = params[:ec][:token]
     @payerid       = params[:ec][:payerid]
+    @notifyurl     = params[:ec][:notifyurl]
+    @paymentaction = params[:ec][:paymentaction]
     @amt           = params[:ec][:amt]
     @currencycode  = params[:ec][:currencycode]
+
+    @invnum        = params[:ec][:invnum]
+    @desc          = params[:ec][:desc]
+    @handlingamt   = params[:ec][:handlingamt]
+    @insuranceamt  = params[:ec][:insuranceamt]
+    @shipdiscamt   = params[:ec][:shipdiscamt]
+    @shippingamt   = params[:ec][:shippingamt]
+    @taxamt        = params[:ec][:taxamt]
+    @itemamt       = params[:ec][:itemamt]
 
     options = {
                 :method        => 'DOExpressCheckoutPayment',
                 :token         => @token,
                 :payerid       => @payerid,
+                :notifyurl     => @notifyurl,
+                :paymentaction => @paymentaction,
                 :amt           => @amt,
                 :currencycode  => @currencycode,
-                :paymentaction => 'Sale'
+
+                :invnum        =>  @invnum,
+                :desc          =>  @desc,
+                :handlingamt   =>  @handlingamt,
+                :insuranceamt  =>  @insuranceamt,
+                :shipdiscamt   =>  @shipdiscamt,
+                :shippingamt   =>  @shippingamt,
+                :taxamt        =>  @taxamt,
+                :itemamt       =>  @itemamt
+
               }
 
     dump_options(options)

@@ -6,7 +6,7 @@ class WpsController < ApplicationController
     # @return = @serverURL + "/wps/return"   this is used when PDT is disabled
     @cancel_return = @serverURL + "/wps/cancel"
     @return = @serverURL + "/pdt/update"
-    @notify_url = ""
+    @notify_url ="#{@serverURL}/ipn/update"
   end
 
   def ewp_init
@@ -42,11 +42,11 @@ class WpsController < ApplicationController
     # @return = @serverURL + "/wps/ewp_return"   this is used when PDT is disabled
     @cancel_return = @serverURL + "/wps/cancel"
     @return = @serverURL + "/pdt/update"
-    @notify_url = ""
+    @notify_url ="#{@serverURL}/ipn/update"
     data = {
              :cmd            => @cmd,
              :upload         => @upload,
-
+             :no_note        => "1",        # disable "Add special instructions to merchant"
              :charset        => @charset,
              :business       => @business,
              :cert_id        => @cert_id,
