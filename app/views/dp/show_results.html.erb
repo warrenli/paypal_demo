@@ -1,0 +1,50 @@
+<style>
+label {
+    float: left;
+    text-align: right;
+    margin-right: 0.2em;
+    width: 15em;
+}
+</style>
+
+<h1 align="center">Checkout Result Using PayPal Direct Payment</h1>
+
+<div style="margin: 0 auto; width: 600px; ">
+
+<% if session[:dp_response] -%>
+<fieldset>
+  <legend>PayPal Payment Results</legend><br />
+  <label>ACK :</label><%= session[:dp_response]["ACK"] -%><br />
+  <label>CURRENCYCODE :</label><%= session[:dp_response]["CURRENCYCODE"] -%><br />
+  <label>AMT :</label><%= session[:dp_response]["AMT"] -%><br />
+  <label>AVSCODE :</label><%= session[:dp_response]["AVSCODE"] -%><br />
+  <label>CVV2MATCH :</label><%= session[:dp_response]["CVV2MATCH"] -%><br />
+  <label>TRANSACTIONID :</label><%= session[:dp_response]["TRANSACTIONID"] -%><br />
+  <label>CORRELATIONID :</label><%= session[:dp_response]["CORRELATIONID"] -%><br />
+  <label>TIMESTAMP :</label><%= session[:dp_response]["TIMESTAMP"] -%><br />
+  <label>VERSION :</label><%= session[:dp_response]["VERSION"] -%><br />
+  <label>BUILD :</label><%= session[:dp_response]["BUILD"] -%><br />
+</fieldset>
+<% end -%>
+<br />
+<br />
+
+<%= link_to "Home", {:controller =>"home", :action => "index"} %> |
+<%= link_to "Re-try PayPal Direct Payment", {:controller =>"checkout", :action => "index2"} %> 
+<br /><br />
+
+<% if session[:dp_response] -%>
+<h2>PayPal Response Data</h2>
+  <% for k, v in session[:dp_response].sort -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+  <% end -%>
+<% end -%>
+<br />
+
+<h2>Request Parameters</h2>
+<% for k, v in params.sort -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+<% end -%>
+<br />
+
+</div>

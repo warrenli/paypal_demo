@@ -1,0 +1,182 @@
+<style>
+label {
+    float: left;
+    text-align: right;
+    margin-right: 0.2em;
+    width: 15em;
+}
+</style>
+
+<h1 align="center">Checkout Using PayPal Direct Payment</h1>
+
+<h2 align="center">Transactions made using the Direct Payment API<br />are not covered by the PayPal Seller Protection Policy</h2>
+<br />
+<center><p>This Demo requires accessing PayPal Sandbox, please login <%= link_to "PayPal Developer Central", DEV_CENTRAL_URL, :popup =>true %> before the test</p></center>
+
+<div style="margin: 0 auto; width: 600px; ">
+<% if session[:pp_errors] -%>
+<h2>PayPal Errors</h2>
+  <% for k, v in session[:pp_errors].sort -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+  <% end -%>
+<% end -%>
+<br />
+
+<% form_tag '/dp/pay' do %>
+<fieldset>
+  <legend>Direct Payment Parameters</legend><br />
+
+  <label for="ipaddress">IP Address:</label> 
+  <%= text_field_tag "ipaddress", request.env['REMOTE_ADDR'], {:readonly => true, :size => 10}  %><br />
+
+  <label for="paymentaction">Payment Action:</label> 
+  <%= text_field_tag "paymentaction", "Sale", {:readonly => true, :size => 10}  %><br />
+
+  <label for="returnmfdetails">Receive FMF:</label> 
+  <%= select_tag "returnmfdetails", options_for_select( [ ["Yes", "1" ], ["No", "0" ]  ], "0" ) %><br />
+
+  <label for="invnum">Invoice Number:</label>
+  <%= text_field_tag "invnum" %> ( *Unique )<br />
+
+  <label for="custom">Custom:</label>
+  <%= text_field_tag "custom", "This is a test" %><br />
+
+  <label for="desc">Description:</label>
+  <%= text_field_tag "desc", "Purchasing some items" %><br />
+  <br />
+
+  <center>
+  <table cellpadding="2" cellspacing="2" border="1">
+  <tr>
+    <td>Item #</td>
+    <td>Name</td>
+    <td>Tax</td>
+    <td>Price</td>
+    <td>Qty</td>
+  </tr>
+  <tr>
+    <td><input type="text" id="l_number0" name="l_number0" value="A001" size="5" /></td>
+    <td><input type="text" id="l_name0" name="l_name0" value="Burger" size="10" /></td>
+    <td><input type="text" id="l_taxamt0" name="l_taxamt0" value="0.30" size="5" /></td>
+    <td><input type="text" id="l_amt0" name="l_amt0" value="0.30" size="5" /></td>
+    <td><input type="text" id="l_qty0" name="l_qty0" value="2" size="5" /></td>
+  </tr>
+  <tr>
+    <td><input type="text" id="l_number1" name="l_number1" value="B002" size="5" /></td>
+    <td><input type="text" id="l_name1" name="l_name1" value="Sundae" size="10" /></td>
+    <td><input type="text" id="l_taxamt1" name="l_taxamt1" value="0.40" size="5" /></td>
+    <td><input type="text" id="l_amt1" name="l_amt1" value="0.20" size="5" /></td>
+    <td><input type="text" id="l_qty1" name="l_qty1" value="1" size="5" /></td>
+  </tr>
+  </table>
+  </center>
+
+  <label for="amt">Currency Code:</label>
+  <%= select_tag "currencycode", options_for_select(%w(AUD CAD EUR JPY GBP USD).map { |currency| [currency, currency] }, 'USD'  ) %><br />
+
+  <label for="amt">Amount:</label>
+  <%= text_field_tag "amt", "2.65", {:size => 10} %> ( Overall Total )<br />
+
+  <label for="handlingamt">Handling Amount:</label>
+  <%= text_field_tag "handlingamt", '0.25', {:size => 10} %><br />
+
+  <label for="insuranceamt">Insurance Amount:</label>
+  <%= text_field_tag "insuranceamt", '0.25', {:size => 10} %><br />
+
+  <label for="shippingamt">Shipping Amount:</label>
+  <%= text_field_tag "shippingamt", '0.35', {:size => 10} %><br />
+
+  <label for="taxamt">Tax Amount:</label>
+  <%= text_field_tag "taxamt", '1.00', {:size => 10} %> ( Subtotal )<br />
+
+  <label for="itemamt">Item Amount:</label>
+  <%= text_field_tag "itemamt", '0.80', {:size => 10} %> ( Subtotal )<br />
+  <br />
+
+  <label for="email">Payer Email:</label> 
+  <%= text_field_tag "email", "bugs@rabbit.com" %><br />
+
+  <label for="firstname">First Name:</label> 
+  <%= text_field_tag "firstname", "Bugs" %><br />
+
+  <label for="lastname">Last Name:</label> 
+  <%= text_field_tag "lastname", "Bunny" %><br />
+  <br />
+
+  <label for="creditcardtype">Card Type:</label>
+  <%= select_tag("creditcardtype", options_for_select(["Visa","MasterCard", "Amex"], "Visa") ) %>
+  <br />
+
+  <label for="acct">Card Number:</label>
+  <%= text_field_tag "acct" ,'4916322182862824', {:size => 19, :maxlength => 19} %>
+  <br />
+
+  <label for="Expiration Date">Expiration Date:</label>
+  <%= select_month Date.today, :use_month_names => %w(01 02 03 04 05 06 07 08 09 10 11 12) %>
+  <%= select_year Date.today, :start_year => Date.today.year, :end_year => Date.today.year + 10 %>
+  <br />
+
+  <label for="cvv2">Card Verification Number:</label>
+  <%= text_field_tag "cvv2", '999', { :size => 4, :maxlength => 4 } %><br />
+  <br />
+
+  <label for="street">Billing Street:</label>
+  <%= text_field_tag "street" ,"1313 S Harbor Blvd" %><br />
+
+  <label for="street2">Street2:</label>
+  <%= text_field_tag "street2" ,"" %><br />
+
+  <label for="city">City:</label>
+  <%= text_field_tag "city" ,"Anaheim" %><br />
+
+  <label for="state">State:</label>
+  <%= text_field_tag "state" ,"CA" %><br />
+
+  <label for="zip">Zip:</label>
+  <%= text_field_tag "zip" ,"92803" %><br />
+
+  <label for="countrycode">Country Code:</label>
+  <%= select_tag("countrycode", options_for_select(["AU", "CA", "FR", "JP", "GB", "US"], "US") ) %><br />
+  <br />
+
+  <label for="shiptoname">Ship To Recipent::</label>
+  <%= text_field_tag "shiptoname" ,"Mr. Bunny" %><br />
+
+  <label for="shiptostreet">Shipping Street:</label>
+  <%= text_field_tag "shiptostreet" ,"1313 S Harbor Blvd" %><br />
+
+  <label for="shiptostreet2">Street2:</label>
+  <%= text_field_tag "shiptostreet2" ,"" %><br />
+
+  <label for="shiptocity">City:</label>
+  <%= text_field_tag "shiptocity" ,"Anaheim" %><br />
+
+  <label for="shiptostate">State:</label>
+  <%= text_field_tag "shiptostate" ,"CA" %><br />
+
+  <label for="shiptozip">Zip:</label>
+  <%= text_field_tag "shiptozip" ,"92803" %><br />
+
+  <label for="shiptocountrycode">Country Code:</label>
+  <%= select_tag("shiptocountrycode", options_for_select(["AU", "CA", "FR", "JP", "GB", "US"], "US") ) %><br />
+  <br />
+
+  <label for="notifyurl">Notify URL:</label>
+  <%= text_field_tag "notifyurl" , @notifyurl %><br />
+  <br />
+
+  <%= submit_tag 'Confirm' %>
+</fieldset>
+<% end -%>
+<br /><br />
+
+<%= link_to "Home", {:controller =>"home", :action => "index"} %>
+<br /><br />
+
+<h2>Request Parameters</h2>
+<% for k, v in params.sort -%>
+  <label><%= "#{k} : " -%></label><%= "#{v}" -%><br />
+<% end -%>
+<br />
+
+</div>

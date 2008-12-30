@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
   def clear_session_data
     session[:ec_response] = nil
     session[:ec_final] = nil
+    session[:dp_response] = nil
   end
 
   def dump_params(method)

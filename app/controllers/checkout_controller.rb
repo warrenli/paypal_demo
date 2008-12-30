@@ -5,4 +5,8 @@ class CheckoutController < ApplicationController
     @cancelURL="#{@serverURL}/checkout/index"
     @returnURL="#{@serverURL}/ec/get_ec_details"
   end
+
+  def index2
+    @notifyurl ="#{@serverURL}/ipn/update"
+  end
 end
